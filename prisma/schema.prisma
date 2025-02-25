@@ -3,7 +3,6 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +10,57 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int         @id @default(autoincrement())
+  name     String
+  email    String      @unique
+  password String
+  chats1   Chat[]      @relation("User1Chats")
+  chats2   Chat[]      @relation("User2Chats")
+  groups   GroupUser[]
+  messages Message[]
+}
+
+model Chat {
+  id       Int       @id @default(autoincrement())
+  users1   User?     @relation("User1Chats", fields: [users1Id], references: [id])
+  users1Id Int?
+  users2   User?     @relation("User2Chats", fields: [users2Id], references: [id])
+  users2Id Int?
+  messages Message[]
+
+  @@unique([users1Id, users2Id]) // Unique chat for each pair of users
+}
+
+model Group {
+  id       Int         @id @default(autoincrement())
+  name     String // Group name, optional
+  users    GroupUser[]
+  messages Message[]
+}
+
+model GroupUser {
+  id      Int @id @default(autoincrement())
+  userId  Int
+  groupId Int
+
+  user  User  @relation(fields: [userId], references: [id])
+  group Group @relation(fields: [groupId], references: [id])
+
+  @@unique([userId, groupId]) // A user can only belong to a group once
+}
+
+model Message {
+  id      Int      @id @default(autoincrement())
+  content String
+  sentAt  DateTime @default(now())
+  userId  Int
+  chatId  Int?
+  groupId Int?
+
+  user  User   @relation(fields: [userId], references: [id])
+  chat  Chat?  @relation(fields: [chatId], references: [id])
+  group Group? @relation(fields: [groupId], references: [id])
 }
