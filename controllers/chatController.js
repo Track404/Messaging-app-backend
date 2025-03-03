@@ -2,7 +2,12 @@ const chatModel = require('../models/chatModel');
 
 async function createChat(req, res) {
   const { firstUserId, secondUserId } = req.body;
-  const chat = await chatModel.createChat(firstUserId, secondUserId);
+  console.log(req.body);
+  console.log(`Controller${firstUserId},${secondUserId}`);
+  const chat = await chatModel.createChat(
+    Number(firstUserId),
+    Number(secondUserId)
+  );
   res.json({ chat: chat, message: 'Chat Created' });
 }
 
@@ -18,10 +23,10 @@ async function getAllChats(req, res) {
 
 async function updateChat(req, res) {
   const { firstUserId, secondUserId } = req.body;
-  const chat = await groupModel.updateGroup(
+  const chat = await chatModel.updateChat(
     Number(req.params.id),
-    firstUserId,
-    secondUserId
+    Number(firstUserId),
+    Number(secondUserId)
   );
   res.json({ chat: chat, message: 'Chat Updated' });
 }

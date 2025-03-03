@@ -1,6 +1,7 @@
 const prisma = require('../prisma/client');
 
 async function createChat(firstUserId, secondUserId) {
+  console.log(`${firstUserId},$${secondUserId}`);
   const chat = await prisma.chat.create({
     data: {
       users1Id: firstUserId,
