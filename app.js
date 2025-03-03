@@ -3,11 +3,14 @@ const app = express();
 const cors = require('cors');
 
 const userRoute = require('./routes/userRoute');
+const groupRoute = require('./routes/groupRoute');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
 app.use('/', userRoute);
+app.use('/', groupRoute);
 
 const PORT = process.env.PORT || 3000;
 
