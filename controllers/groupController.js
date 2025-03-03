@@ -12,7 +12,7 @@ async function getUniqueGroupById(req, res) {
 }
 
 async function getAllGroups(req, res) {
-  const group = await userModel.getAllGroups();
+  const group = await groupModel.getAllGroups();
   res.json({ group: group, message: `All Groups` });
 }
 
