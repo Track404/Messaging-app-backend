@@ -11,7 +11,10 @@ groupUserRouter.post(
   '/groupUser/:groupId/:id',
   groupUserController.createGroupUser
 );
-groupUserRouter.put('/group/:groupId', groupUserController.updateGroupUser);
-groupUserRouter.delete('/group/:id', groupUserController.deleteGroupUser);
+groupUserRouter.put(
+  '/groupUser/:groupId/:id',
+  groupUserController.updateGroupUser
+);
+groupUserRouter.delete('/groupUser/:id', groupUserController.deleteGroupUser);
 
 module.exports = groupUserRouter;

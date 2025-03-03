@@ -25,6 +25,7 @@ async function getAllGroupUsers(req, res) {
 
 async function updateGroupUser(req, res) {
   const groupUser = await groupUserModel.updateGroupUser(
+    Number(req.params.id),
     Number(req.params.groupId)
   );
   res.json({ groupUser: groupUser, message: 'Group User Updated' });
