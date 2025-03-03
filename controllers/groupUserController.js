@@ -9,7 +9,7 @@ async function createGroupUser(req, res) {
 }
 
 async function getUniqueGroupUserById(req, res) {
-  const groupUser = await groupUserModel.getUniqueGroupUserById(
+  const groupUser = await groupUserModel.getGroupUserById(
     Number(req.params.id)
   );
   res.json({

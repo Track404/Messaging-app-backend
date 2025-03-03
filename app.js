@@ -5,6 +5,7 @@ const cors = require('cors');
 const userRoute = require('./routes/userRoute');
 const groupRoute = require('./routes/groupRoute');
 const chatRoute = require('./routes/chatRoute');
+const groupUserRoute = require('./routes/groupUserRoute');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -13,6 +14,7 @@ app.use(cors());
 app.use('/', userRoute);
 app.use('/', groupRoute);
 app.use('/', chatRoute);
+app.use('/', groupUserRoute);
 
 const PORT = process.env.PORT || 3000;
 
