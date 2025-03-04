@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const passport = require('../config/passport');
 const userModel = require('../models/userModel');
+const tokenBlacklist = new Set();
 require('dotenv').config();
 
 async function loginUser(req, res) {
@@ -35,6 +36,12 @@ async function secureUser(req, res) {
     if (err || !user) {
       return res.status(401).json({ message: 'Unauthorized', error: info });
     }
+    const token = req.headers.authorization?.split(' ')[1];
+    if (tokenBlacklist.has(token)) {
+      return res
+        .status(401)
+        .json({ message: 'Token has been invalidated. Please log in again.' });
+    }
     req.user = user;
     res.json({
       message: 'Access granted',
@@ -43,7 +50,19 @@ async function secureUser(req, res) {
   })(req, res);
 }
 
+async function logoutUser(req, res) {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(400).json({ message: 'No token provided' });
+  }
+
+  tokenBlacklist.add(token); // Add token to the blacklist
+  res.json({ message: 'Logged out successfully' });
+}
+
 module.exports = {
   loginUser,
   secureUser,
+  logoutUser,
 };
