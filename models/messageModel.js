@@ -1,6 +1,6 @@
 const prisma = require('../prisma/client');
 
-async function createMessage(content, userId, chatId, groupId) {
+async function createMessage(content, userId, chatId = null, groupId = null) {
   const message = await prisma.message.create({
     data: {
       content: content,
