@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const passport = require('./config/passport');
 const cors = require('cors');
+const validateRequest = require('./validators/validateRequest');
 
 const userRoute = require('./routes/userRoute');
 const groupRoute = require('./routes/groupRoute');
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(passport.initialize());
+app.use('/', validateRequest);
 
 app.use('/', userRoute);
 app.use('/', groupRoute);
