@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const passport = require('./config/passport');
 const cors = require('cors');
 
 const userRoute = require('./routes/userRoute');
@@ -11,6 +12,7 @@ const messageRoute = require('./routes/messageRoute');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(passport.initialize());
 
 app.use('/', userRoute);
 app.use('/', groupRoute);
