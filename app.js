@@ -8,6 +8,7 @@ const groupRoute = require('./routes/groupRoute');
 const chatRoute = require('./routes/chatRoute');
 const groupUserRoute = require('./routes/groupUserRoute');
 const messageRoute = require('./routes/messageRoute');
+const loginRoute = require('./routes/loginRoute');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,6 +20,7 @@ app.use('/', groupRoute);
 app.use('/', chatRoute);
 app.use('/', groupUserRoute);
 app.use('/', messageRoute);
+app.use('/', loginRoute);
 
 const PORT = process.env.PORT || 3000;
 

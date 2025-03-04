@@ -12,7 +12,7 @@ const opts = {
 passport.use(
   new JwtStrategy(opts, async (jwt_payload, done) => {
     try {
-      const user = await userModel.getUniqueUserById(jwt_payload.id); // Fetch user from DB
+      const user = await userModel.getUserById(jwt_payload.id); // Fetch user from DB
       if (user) return done(null, user);
       return done(null, false);
     } catch (err) {

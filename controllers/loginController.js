@@ -9,6 +9,7 @@ async function loginUser(req, res) {
 
   try {
     const user = await userModel.getUserByEmail(email);
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -29,14 +30,17 @@ async function loginUser(req, res) {
   }
 }
 
-async function secureUser(req, res, next) {
+async function secureUser(req, res) {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err || !user) {
       return res.status(401).json({ message: 'Unauthorized', error: info });
     }
     req.user = user;
-    next();
-  })(req, res, next);
+    res.json({
+      message: 'Access granted',
+      user: { id: req.user.id, name: req.user.name, email: req.user.email },
+    });
+  })(req, res);
 }
 
 module.exports = {
