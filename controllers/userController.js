@@ -19,10 +19,10 @@ async function getAllUsers(req, res) {
 }
 
 async function updateUser(req, res) {
-  const { name, email, password } = req.body;
+  const { username, email, password } = req.body;
   const user = await userModel.updateUser(
     Number(req.params.id),
-    name,
+    username,
     email,
     password
   );
