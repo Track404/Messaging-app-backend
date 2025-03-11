@@ -13,6 +13,11 @@ async function getUniqueUserById(req, res) {
   res.json({ user: user, message: `Get User ${req.params.id}` });
 }
 
+async function getUniqueUserAllChats(req, res) {
+  const user = await userModel.getUserAllChats(Number(req.params.id));
+  res.json({ user: user, message: `Get User Chats ${req.params.id}` });
+}
+
 async function getAllUsers(req, res) {
   const user = await userModel.getAllUsers();
   res.json({ user: user, message: `All Users` });
@@ -37,6 +42,7 @@ async function deleteUser(req, res) {
 module.exports = {
   createUser,
   getUniqueUserById,
+  getUniqueUserAllChats,
   getAllUsers,
   updateUser,
   deleteUser,

@@ -2,8 +2,6 @@ const chatModel = require('../models/chatModel');
 
 async function createChat(req, res) {
   const { firstUserId, secondUserId } = req.body;
-  console.log(req.body);
-  console.log(`Controller${firstUserId},${secondUserId}`);
   const chat = await chatModel.createChat(
     Number(firstUserId),
     Number(secondUserId)

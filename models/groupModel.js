@@ -14,6 +14,14 @@ async function getGroupById(id) {
     where: {
       id: id,
     },
+    include: {
+      users: true,
+      messages: {
+        orderBy: {
+          sentAt: 'desc',
+        },
+      },
+    },
   });
   return group;
 }

@@ -8,6 +8,14 @@ async function createGroupUser(req, res) {
   res.json({ groupUser: groupUser, message: 'Group User Created' });
 }
 
+async function createManyGroupUsers(req, res) {
+  const { usersIds, groupId } = req.body;
+  const groupUsers = await groupUserModel.createMultipleGroupUsers(
+    usersIds,
+    groupId
+  );
+  res.json({ groupUsers: groupUsers, message: 'Group User Created' });
+}
 async function getUniqueGroupUserById(req, res) {
   const groupUser = await groupUserModel.getGroupUserById(
     Number(req.params.id)
@@ -41,6 +49,7 @@ async function deleteGroupUser(req, res) {
 
 module.exports = {
   createGroupUser,
+  createManyGroupUsers,
   getUniqueGroupUserById,
   getAllGroupUsers,
   updateGroupUser,

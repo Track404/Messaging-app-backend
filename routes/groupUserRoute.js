@@ -11,6 +11,7 @@ groupUserRouter.post(
   '/groupUser/:groupId/:id',
   groupUserController.createGroupUser
 );
+groupUserRouter.post('/groupUsers', groupUserController.createManyGroupUsers);
 groupUserRouter.put(
   '/groupUser/:groupId/:id',
   groupUserController.updateGroupUser

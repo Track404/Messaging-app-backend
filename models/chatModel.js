@@ -1,7 +1,7 @@
 const prisma = require('../prisma/client');
 
 async function createChat(firstUserId, secondUserId) {
-  console.log(`${firstUserId},$${secondUserId}`);
+  console.log(`Model${firstUserId},${secondUserId}`);
   const chat = await prisma.chat.create({
     data: {
       users1Id: firstUserId,
@@ -15,6 +15,25 @@ async function getChatById(id) {
   const chat = await prisma.chat.findUnique({
     where: {
       id: id,
+    },
+    select: {
+      users1: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      users2: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      messages: {
+        orderBy: {
+          sentAt: 'desc',
+        },
+      },
     },
   });
   return chat;

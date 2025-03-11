@@ -10,6 +10,18 @@ async function createGroupUser(userId, groupId) {
   return groupUser;
 }
 
+async function createMultipleGroupUsers(userIds, groupId) {
+  const groupUsers = await prisma.groupUser.createMany({
+    data: userIds.map((userId) => ({
+      userId: Number(userId),
+      groupId: Number(groupId),
+    })),
+    skipDuplicates: true, // Prevents errors if a user is already in the group
+  });
+
+  return groupUsers;
+}
+
 async function getGroupUserById(id) {
   const groupUser = await prisma.groupUser.findUnique({
     where: {
@@ -47,6 +59,7 @@ async function deleteGroupUser(id) {
 
 module.exports = {
   createGroupUser,
+  createMultipleGroupUsers,
   getGroupUserById,
   getAllGroupUsers,
   updateGroupUser,

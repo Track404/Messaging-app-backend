@@ -28,6 +28,64 @@ async function getUserByEmail(email) {
   });
   return user;
 }
+
+async function getUserAllChats(id) {
+  const userChats = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      chats1: {
+        include: {
+          users2: {
+            select: {
+              name: true,
+            },
+          },
+          messages: {
+            orderBy: {
+              sentAt: 'desc',
+            },
+            take: 1,
+          },
+        },
+      },
+      chats2: {
+        include: {
+          users1: {
+            select: {
+              name: true,
+            },
+          },
+          messages: {
+            orderBy: {
+              sentAt: 'desc',
+            },
+            take: 1,
+          },
+        },
+      },
+      groups: {
+        include: {
+          group: {
+            select: {
+              name: true,
+              messages: {
+                orderBy: {
+                  sentAt: 'desc',
+                },
+                take: 1,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return userChats;
+}
+
 async function getAllUsers() {
   const user = await prisma.user.findMany();
   return user;
@@ -60,6 +118,7 @@ module.exports = {
   createUser,
   getUserById,
   getUserByEmail,
+  getUserAllChats,
   getAllUsers,
   updateUser,
   deleteUser,
