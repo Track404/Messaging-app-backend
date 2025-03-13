@@ -25,9 +25,9 @@ model User {
 
 model Chat {
   id       Int       @id @default(autoincrement())
-  users1   User?     @relation("User1Chats", fields: [users1Id], references: [id])
+  users1   User?     @relation("User1Chats", fields: [users1Id], references: [id], onDelete: Cascade)
   users1Id Int?
-  users2   User?     @relation("User2Chats", fields: [users2Id], references: [id])
+  users2   User?     @relation("User2Chats", fields: [users2Id], references: [id], onDelete: Cascade)
   users2Id Int?
   messages Message[]
 
@@ -46,8 +46,8 @@ model GroupUser {
   userId  Int
   groupId Int
 
-  user  User  @relation(fields: [userId], references: [id])
-  group Group @relation(fields: [groupId], references: [id])
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
 
   @@unique([userId, groupId]) // A user can only belong to a group once
 }
@@ -60,7 +60,7 @@ model Message {
   chatId  Int?
   groupId Int?
 
-  user  User   @relation(fields: [userId], references: [id])
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   chat  Chat?  @relation(fields: [chatId], references: [id])
   group Group? @relation(fields: [groupId], references: [id])
 }

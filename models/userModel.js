@@ -11,6 +11,13 @@ async function createUser(name, email, password) {
   return user;
 }
 
+async function createUsers(users) {
+  const createdUsers = await prisma.user.createMany({
+    data: users,
+  });
+  return createdUsers;
+}
+
 async function getUserById(id) {
   const user = await prisma.user.findUnique({
     where: {
@@ -91,7 +98,7 @@ async function getAllUsers() {
   return user;
 }
 
-async function updateUser(id, name, email, password) {
+async function updateUser(id, name, email) {
   const user = await prisma.user.update({
     where: {
       id: id,
@@ -99,7 +106,6 @@ async function updateUser(id, name, email, password) {
     data: {
       name: name,
       email: email,
-      password: password,
     },
   });
   return user;
@@ -114,12 +120,19 @@ async function deleteUser(id) {
   return user;
 }
 
+async function deleteAllUsers() {
+  const user = await prisma.user.deleteMany();
+  return user;
+}
+
 module.exports = {
   createUser,
+  createUsers,
   getUserById,
   getUserByEmail,
   getUserAllChats,
   getAllUsers,
   updateUser,
   deleteUser,
+  deleteAllUsers,
 };

@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const groupUserRouter = Router();
 const groupUserController = require('../controllers/groupUserController');
+const pageValidation = require('../validators/pageValidation');
+const validateRequest = require('../validators/validateRequest');
 
 groupUserRouter.get('/groupUser', groupUserController.getAllGroupUsers);
 groupUserRouter.get(
@@ -11,7 +13,12 @@ groupUserRouter.post(
   '/groupUser/:groupId/:id',
   groupUserController.createGroupUser
 );
-groupUserRouter.post('/groupUsers', groupUserController.createManyGroupUsers);
+groupUserRouter.post(
+  '/groupUsers',
+  pageValidation.validateGroupMembers,
+  validateRequest,
+  groupUserController.createManyGroupUsers
+);
 groupUserRouter.put(
   '/groupUser/:groupId/:id',
   groupUserController.updateGroupUser
