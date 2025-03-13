@@ -94,7 +94,11 @@ async function getUserAllChats(id) {
 }
 
 async function getAllUsers() {
-  const user = await prisma.user.findMany();
+  const user = await prisma.user.findMany({
+    orderBy: {
+      name: 'desc',
+    },
+  });
   return user;
 }
 
