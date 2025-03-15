@@ -2,11 +2,26 @@ const chatModel = require('../models/chatModel');
 
 async function createChat(req, res) {
   const { firstUserId, secondUserId } = req.body;
-  const chat = await chatModel.createChat(
-    Number(firstUserId),
-    Number(secondUserId)
-  );
-  res.json({ chat: chat, message: 'Chat Created' });
+
+  try {
+    const chat = await chatModel.createChat(
+      Number(firstUserId),
+      Number(secondUserId)
+    );
+
+    res.json({ chat: chat, message: 'Chat Created' });
+  } catch (error) {
+    // Check if the error is due to a unique constraint violation (P2002)
+    if (error.code === 'P2002') {
+      return res
+        .status(400)
+        .json({ message: 'Chat already exists between these users' });
+    }
+
+    // Handle other errors
+    console.error('Unexpected error:', error);
+    res.status(500).json({ message: 'Something went wrong' });
+  }
 }
 
 async function getUniqueChatById(req, res) {
